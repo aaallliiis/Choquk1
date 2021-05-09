@@ -15,6 +15,7 @@ app.get('/', (req, res) => {
 })
 app.post('/api/login', auth.loginValidator, auth.login)
 app.post('/api/signup', auth.signupValidator, auth.signup)
+app.post('/api/verification', auth.signupValidator, auth.verification)
 
 app.listen(3000, () => {
   console.log(`Server listening at http://localhost:3000`)
