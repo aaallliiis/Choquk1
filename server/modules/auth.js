@@ -85,34 +85,45 @@ function signup(req, res) {
             token:  Math.floor(100000 + Math.random() * 900000)
         }
         
-        axios.post('https://RestfulSms.com/api/Token',{
-            "UserApiKey":"9ea747d33aaaa10efdc747d",
-            "SecretKey":"@liSoltaniInCodeSakhte:|"
-        }).then(({data:{TokenKey}})=>{
-            axios.post('https://RestfulSms.com/api/MessageSend',{
-                Messages:[newUser.token],
-                MobileNumbers: [newUser.phoneNumber],
-                LineNumber: "30002828222228",
-                SendDateTime: "",
-                CanContinueInCaseOfError: "false",        
-            },{
-                headers:{'x-sms-ir-secure-token':TokenKey}
-            }).then(()=>{
-                db.get('users')
-                .push(newUser)
-                .write()
+        db.get('users')
+        .push(newUser)
+        .write()
 
-                return res.json({status: 'user created', user: { 
-                    email: newUser.email,
-                    name: newUser.name,
-                    phoneNumber: newUser.phoneNumber
-                }})
-            }).catch(err=>res.status(500).json({ errors: ["smt wrong pls try again."] }))
-        })
-        .catch(err=>res.status(500).json({ errors: ["smt wrong pls try again."] }))
+        return res.json({status: 'user created', user: { 
+            email: newUser.email,
+            name: newUser.name,
+            phoneNumber: newUser.phoneNumber
+        }})
     });
 }
 
+function sendVerificationCode(req,res){
+    const user = db
+    .get('users')
+    .find({ phoneNumber: req.body.phoneNumber })
+    .value()
+
+    if (!user) {
+        return res.status(402).json({ errors: ["not found user."] });
+    }
+
+    axios.post('https://RestfulSms.com/api/Token',{
+        "UserApiKey":"9ea747d33aaaa10efdc747d",
+        "SecretKey":"@liSoltaniInCodeSakhte:|"
+    }).then(({data:{TokenKey}})=>{
+        axios.post('https://RestfulSms.com/api/MessageSend',{
+            Messages:[user.token],
+            MobileNumbers: [user.phoneNumber],
+            LineNumber: "30002828222228",
+            SendDateTime: "",
+            CanContinueInCaseOfError: "false",        
+        },{
+            headers:{'x-sms-ir-secure-token':TokenKey}
+        }).then(()=>res.status(200).json('code sent'))
+        .catch(err=>res.status(500).json({ errors: ["smt wrong pls try again."] }))
+    })
+    .catch(err=>res.status(500).json({ errors: ["smt wrong pls try again."] }))
+}
 function verification(req,res){
     const user = db
         .get('users')
@@ -137,5 +148,6 @@ module.exports = {
     login,
     signupValidator,
     signup,
-    verification
+    verification,
+    sendVerificationCode
 }
