@@ -33,7 +33,7 @@ passport.use('local.register' ,new localstrategy({
     passwordField : 'password',
     passReqToCallback:true
     },async(req,email , password , done)=> {
-        const {name,phoneNumber} = req.body;
+        const {name,phoneNumber,lastName,uniCode,orientation,field,birthDate} = req.body;
         await User.findOne({$or: [
             {email},
             {phoneNumber}
@@ -43,8 +43,13 @@ passport.use('local.register' ,new localstrategy({
             const newUser= new User({
                 email,
                 name,
+                lastName,
                 phoneNumber,
-                password
+                password,
+                uniCode,
+                orientation,
+                field,
+                birthDate,
             });
             await newUser.save(err=>{
                 if(err) done(err,false);

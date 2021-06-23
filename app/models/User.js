@@ -3,9 +3,14 @@ const bcrypt=require('bcryptjs');
 
 const userSchema=mongoose.Schema({
     name: { type: String, default:null},
+    lastName: { type: String, default:null},
     email: { type: String, default:null},
     password: { type: String, required: true },
     phoneNumber: { type: String, default:null},
+    uniCode: { type: String, default:null},
+    orientation: { type: String, default:null},
+    field: { type: String, default:null},
+    birthDate: { type: Date, default:null},
     active: { type: Boolean, default:false},
 },{ timestamps: true });
 
