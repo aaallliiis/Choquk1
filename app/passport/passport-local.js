@@ -36,10 +36,11 @@ passport.use('local.register' ,new localstrategy({
         const {name,phoneNumber,lastName,uniCode,orientation,field,birthDate} = req.body;
         await User.findOne({$or: [
             {email},
-            {phoneNumber}
+            {phoneNumber},
+            {uniCode}
         ]}, async(err , user)=> {
             if(err)  return done(err);
-            if(user) return done(null,false,{message:'this email or phoneNumber has been taken before'});
+            if(user) return done(null,false,{message:'this email or phoneNumber or uniCode has been taken before'});
             const newUser= new User({
                 email,
                 name,

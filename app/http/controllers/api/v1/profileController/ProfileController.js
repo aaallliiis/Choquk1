@@ -6,23 +6,20 @@ class ProfileController extends controller {
         return this.success(await User.getUserData(req.user.id),res)
     }
 
-    async updateUser(req,res){
-        const errs = this.validationData(req)
-        if(errs.length>0)
-            return this.failed(errs,res,400);
-        console.log('update')
-        // const {user:{id,username},body} = req;
-        // if(body.username&&body.username!== username){
-        //     var found = await User.findOne({username:body.username});
-        // }
-        // if(found) return this.failed('username has been taken before',res)
-        // User.findById(id)
-        // .then(user=>
-        //     user.updateOne({$set:body})
-        //     .then(()=>this.success('user successfuly updated',res))
-        //     .catch(err=>this.failed(err,res))
-        // )
-        // .catch(err=>this.failed(err,res))
+    async updateUser({user:{id},body},res){
+        const {phoneNumber,email,uniCode,active} = body;
+        if(phoneNumber||email||uniCode){
+            var found = await User.findOne({$or: [
+                {email},
+                {phoneNumber},
+                {uniCode}
+            ]});
+            if(found) return this.failed('email or phonenumber or uniCode has been taken before',res)
+        }
+        delete body.active
+        User.findByIdAndUpdate(id,{$set:body})
+        .then(()=>this.success('user successfuly updated',res))
+        .catch(err=>console.log(err))
     }
 }   
 

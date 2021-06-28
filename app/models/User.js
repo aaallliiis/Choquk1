@@ -4,10 +4,10 @@ const bcrypt=require('bcryptjs');
 const userSchema=mongoose.Schema({
     name: { type: String, default:null},
     lastName: { type: String, default:null},
-    email: { type: String, default:null},
+    email: { type: String, default:null,unique:true},
     password: { type: String, required: true },
-    phoneNumber: { type: String, default:null},
-    uniCode: { type: String, default:null},
+    phoneNumber: { type: String, default:null,unique:true},
+    uniCode: { type: String, default:null,unique:true},
     orientation: { type: String, default:null},
     field: { type: String, default:null},
     birthDate: { type: Date, default:null},
@@ -24,7 +24,8 @@ userSchema.pre('save',async function(next){
 
 userSchema.pre('findOneAndUpdate', function(next){
     const salt = bcrypt.genSaltSync(15);
-    this.getUpdate().$set.password = bcrypt.hashSync(this.getUpdate().$set.password, salt);
+    if(this.getUpdate().$set.password)
+        this.getUpdate().$set.password = bcrypt.hashSync(this.getUpdate().$set.password, salt);
     next();
 });
 
