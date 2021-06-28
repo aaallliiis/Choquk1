@@ -19,7 +19,12 @@ module.exports = class Application{
     }
     async setupMongoose(){
         mongoose.Promise=global.Promise;
-        await mongoose.connect(config.database.url,{useCreateIndex: true,useNewUrlParser: true,useUnifiedTopology: true,useFindAndModify:true,authSource:'admin'})
+        await mongoose.connect(config.database.url,{
+            useCreateIndex: true,
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify:false,
+            authSource:'admin'})
         console.log('connected to DB');
     }
     setConfig(){
