@@ -24,10 +24,13 @@ userSchema.pre('save',async function(next){
 
 userSchema.pre('findOneAndUpdate', function(next){
     const salt = bcrypt.genSaltSync(15);
-    console.log(this.getUpdate().$set.password)
-    // this.getUpdate().$set.password = bcrypt.hashSync(this.getUpdate().$set.password, salt);
+    this.getUpdate().$set.password = bcrypt.hashSync(this.getUpdate().$set.password, salt);
     next();
 });
+
+userSchema.statics.getUserData=async function(Id){
+    return await User.findById(Id,'-password -__v')
+}
 
 userSchema.statics.rehash=function(password,hash){
     return bcrypt.compareSync(password,hash);

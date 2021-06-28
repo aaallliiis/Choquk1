@@ -1,9 +1,6 @@
 const router = require('express').Router();
+const profile = require('./profile');
 
-//controller
-
-//middleware
-
-router.get('/' ,(req,res)=>res.json(':D'));
+router.use('/profile' ,profile);
 
 module.exports = router;
