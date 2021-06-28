@@ -15,14 +15,17 @@ const userSchema=mongoose.Schema({
 },{ timestamps: true });
 
 userSchema.pre('save',async function(next){
-    let salt=bcrypt.genSaltSync(15);
-    this.password=await bcrypt.hash(this.password,salt);
-    next();
+    if(this.isModified('password')){
+        let salt=bcrypt.genSaltSync(15);
+        this.password=await bcrypt.hash(this.password,salt);
+        next();
+    }
 });
 
 userSchema.pre('findOneAndUpdate', function(next){
     const salt = bcrypt.genSaltSync(15);
-    this.getUpdate().$set.password = bcrypt.hashSync(this.getUpdate().$set.password, salt);
+    console.log(this.getUpdate().$set.password)
+    // this.getUpdate().$set.password = bcrypt.hashSync(this.getUpdate().$set.password, salt);
     next();
 });
 
