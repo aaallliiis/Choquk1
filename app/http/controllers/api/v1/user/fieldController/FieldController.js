@@ -1,5 +1,5 @@
-const controller = require('../../../controller');
-const Field=require('../../../../../models/Field');
+const controller = require('../../../../controller');
+const Field=require('../../../../../../models/Field');
 
 class FieldController extends controller {
     async getAllFields(req,res,next){

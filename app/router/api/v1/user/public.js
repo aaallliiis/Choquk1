@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
 //cotroller
-const AuthController = require('../../../../http/controllers/api/v1/auth/AuthController');
-const ActiveAccountController = require('../../../../http/controllers/api/v1/auth/ActiveAccountController');
+const AuthController = require('../../../../http/controllers/api/v1/user/auth/AuthController');
+const ActiveAccountController = require('../../../../http/controllers/api/v1/user/auth/ActiveAccountController');
 
 
 // login

@@ -1,5 +1,5 @@
-const controller = require('../../../controller');
-const File=require('../../../../../models/File');
+const controller = require('../../../../controller');
+const File=require('../../../../../../models/File');
 
 class FileController extends controller {
     async getAllFiles({query,body:{offset}},res,next){

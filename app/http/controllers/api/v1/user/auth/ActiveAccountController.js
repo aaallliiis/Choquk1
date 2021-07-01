@@ -1,6 +1,6 @@
-const controller = require('../../../controller');
-const ActiveMobile = require('../../../../../models/ActiveMobile');
-const User = require('../../../../../models/User');
+const controller = require('../../../../controller');
+const ActiveMobile = require('../../../../../../models/ActiveMobile');
+const User = require('../../../../../../models/User');
 
 class ActiveAccountController extends controller {
     async sendToken(req,res){

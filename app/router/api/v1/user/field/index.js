@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 //cotroller
-const FieldController = require('../../../../../http/controllers/api/v1/fieldController/FieldController');
+const FieldController = require('../../../../../http/controllers/api/v1/user/fieldController/FieldController');
 
 //validator
 

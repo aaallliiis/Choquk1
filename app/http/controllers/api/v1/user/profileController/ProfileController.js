@@ -1,5 +1,5 @@
-const controller = require('../../../controller');
-const User=require('../../../../../models/User');
+const controller = require('../../../../controller');
+const User=require('../../../../../../models/User');
 
 class ProfileController extends controller {
     async getUserData(req,res,next){

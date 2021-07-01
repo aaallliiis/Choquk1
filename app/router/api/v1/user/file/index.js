@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 //cotroller
-const FileController = require('../../../../../http/controllers/api/v1/fileController/FileController');
+const FileController = require('../../../../../http/controllers/api/v1/user/fileController/FileController');
 
 //validator
 

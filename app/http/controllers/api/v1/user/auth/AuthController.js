@@ -1,4 +1,4 @@
-const controller = require('../../../controller');
+const controller = require('../../../../controller');
 const passport=require('passport');
 const jwt=require('jsonwebtoken');
 

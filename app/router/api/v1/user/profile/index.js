@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 //cotroller
-const profileController = require('../../../../../http/controllers/api/v1/profileController/ProfileController');
+const profileController = require('../../../../../http/controllers/api/v1/user/profileController/ProfileController');
 
 //validator
 
