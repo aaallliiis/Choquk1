@@ -11,7 +11,11 @@ class FileController extends controller {
     }
 
     async getFileById({params:{id}},res,next){
-        return this.success(await File.getFileData(id),res)
+        try {
+            return this.success(await File.getFileData(id),res)
+        } catch (error) {
+            this.failed(error.message,res,400)
+        }
     }
 }   
 

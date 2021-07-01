@@ -30,7 +30,10 @@ userSchema.pre('findOneAndUpdate', function(next){
 });
 
 userSchema.statics.getUserData=async function(Id){
-    return await User.findById(Id,'-password -__v')
+    if(!mongoose.isValidObjectId(Id))
+        throw new Error('not valid id')
+    else
+        return await User.findById(Id,'-password -__v')
 }
 
 userSchema.statics.rehash=function(password,hash){

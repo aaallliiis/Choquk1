@@ -36,9 +36,12 @@ fileShcema.statics.getFiles=async function({search,fieldId,courseId}){
 }
 
 fileShcema.statics.getFileData=async function(Id){
-    return await File.findById(Id,'-__v -updatedAt')
-    .populate('courseId','_id name')
-    .populate('fieldId','_id name')
+    if(!mongoose.isValidObjectId(Id))
+        throw new Error('not valid id')
+    else
+        return await File.findById(Id,'-__v -updatedAt')
+        .populate('courseId','_id name')
+        .populate('fieldId','_id name')
 
 }
 

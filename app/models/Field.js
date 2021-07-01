@@ -17,8 +17,11 @@ fieldSchema.statics.getFields=async function(){
 }
 
 fieldSchema.statics.getFieldData=async function(Id){
-    return await Field.findById(Id,'-__v -updatedAt')
-    .populate('courses','-__v -updatedAt')
+    if(!mongoose.isValidObjectId(Id))
+        throw new Error('not valid id')
+    else
+        return await Field.findById(Id,'-__v -updatedAt')
+        .populate('courses','-__v -updatedAt')
 }
 
 const Field =mongoose.model('Field',fieldSchema);;
