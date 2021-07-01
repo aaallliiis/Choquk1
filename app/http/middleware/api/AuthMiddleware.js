@@ -7,7 +7,7 @@ module.exports = new (class AuthMiddleware extends Middleware {
     passport.authenticate('jwt', { session: false }, (err, user) => {
       if (err || !user) {
         return res.status(401).json({
-          data: 'برای دسترسی به این صفحه باید وارد شوید',
+          data: 'Unauthorized you need to login',
           status: 'error',
         });
       }

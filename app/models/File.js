@@ -9,6 +9,39 @@ const fileShcema=mongoose.Schema({
     type:{ type:String , require:true },
 },{ timestamps: true });
 
+fileShcema.statics.getFiles=async function({search,fieldId,courseId}){
+    let query = [];
+    
+    if(search)
+        query = [{title:new RegExp(search,'gi')},{description:new RegExp(search,'gi')}]
+    
+    if(fieldId&&mongoose.isValidObjectId(fieldId))
+        query.push({fieldId})
+    else if(fieldId&&!mongoose.isValidObjectId(fieldId))
+        throw new Error('not valid id')
+
+    if(courseId&&mongoose.isValidObjectId(courseId))
+        query.push({courseId})
+    else if(courseId&&!mongoose.isValidObjectId(courseId))
+        throw new Error('not valid id')
+
+    if(query.length>0)
+        return await File.find({$or:query},'-__v -updatedAt')
+        .populate('courseId','_id name')
+        .populate('fieldId','_id name')
+    else
+        return await File.find({},'-__v -updatedAt')
+        .populate('courseId','_id name')
+        .populate('fieldId','_id name')
+}
+
+fileShcema.statics.getFileData=async function(Id){
+    return await File.findById(Id,'-__v -updatedAt')
+    .populate('courseId','_id name')
+    .populate('fieldId','_id name')
+
+}
+
 const File = mongoose.model('File',fileShcema);
 
 module.exports = File;
