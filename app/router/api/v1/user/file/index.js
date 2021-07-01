@@ -5,7 +5,7 @@ const FileController = require('../../../../../http/controllers/api/v1/fileContr
 
 //validator
 
-router.get('/', FileController.getAllFiles)
+router.post('/', FileController.getAllFiles)
 router.get('/:id', FileController.getFileById)
 
 module.exports = router;

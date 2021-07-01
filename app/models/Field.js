@@ -18,7 +18,7 @@ fieldSchema.statics.getFields=async function(){
 
 fieldSchema.statics.getFieldData=async function(Id){
     if(!mongoose.isValidObjectId(Id))
-        throw new Error('not valid id')
+        throw new Error('invalid id')
     else
         return await Field.findById(Id,'-__v -updatedAt')
         .populate('courses','-__v -updatedAt')

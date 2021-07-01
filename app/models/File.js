@@ -18,12 +18,12 @@ fileShcema.statics.getFiles=async function({search,fieldId,courseId}){
     if(fieldId&&mongoose.isValidObjectId(fieldId))
         query.push({fieldId})
     else if(fieldId&&!mongoose.isValidObjectId(fieldId))
-        throw new Error('not valid id')
+        throw new Error('invalid id')
 
     if(courseId&&mongoose.isValidObjectId(courseId))
         query.push({courseId})
     else if(courseId&&!mongoose.isValidObjectId(courseId))
-        throw new Error('not valid id')
+        throw new Error('invalid id')
 
     if(query.length>0)
         return await File.find({$or:query},'-__v -updatedAt')
@@ -37,7 +37,7 @@ fileShcema.statics.getFiles=async function({search,fieldId,courseId}){
 
 fileShcema.statics.getFileData=async function(Id){
     if(!mongoose.isValidObjectId(Id))
-        throw new Error('not valid id')
+        throw new Error('invalid id')
     else
         return await File.findById(Id,'-__v -updatedAt')
         .populate('courseId','_id name')
