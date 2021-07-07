@@ -1,6 +1,7 @@
 const passport=require('passport');
 const localstrategy = require('passport-local').Strategy;
 const User=require('../models/User');
+const Admin=require('../models/Admin');
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
@@ -10,6 +11,21 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
     });
 });
+
+passport.use('local.admin',new localstrategy({
+    passReqToCallback:true
+},(req,username,password,done)=>{
+    try{
+        Admin.findOne({username},(err,user)=>{
+            if(err) return done(err);
+            if(!user||!Admin.rehash(password,user.password))return done(null,false,{message:'Admin not found'});
+            return done(null,user);
+        })
+    }
+    catch(err){
+        done(err,false);
+    }
+}))
 
 passport.use('local.login',new localstrategy({
     usernameField:'email',
