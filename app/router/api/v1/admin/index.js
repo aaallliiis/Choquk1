@@ -1,13 +1,13 @@
 const router = require('express').Router();
 
 //  midlleware
-const AuthMiddleware = require('../../../../http/middleware/api/AuthMiddleware');
+const AdminAuthMiddleware = require('../../../../http/middleware/api/AdminAuthMiddleware');
 
 const forAll = require('./public');
 const forAdmin = require('./private');
 
 router.use(forAll);
 
-router.use(AuthMiddleware.handle, forAdmin);
+router.use(AdminAuthMiddleware.handle, forAdmin);
 
 module.exports = router;
