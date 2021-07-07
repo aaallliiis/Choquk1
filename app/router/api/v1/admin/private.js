@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const field = require('./field');
-const file = require('./file');
 
-// router.use('/fields' ,field);
-// router.use('/files' ,file);
+router.use('/fields' ,field);
 
 module.exports = router;
