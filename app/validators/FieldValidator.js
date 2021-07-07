@@ -1,6 +1,5 @@
 const { check } = require('express-validator');
 const Validator =  require('./Validator');
-const path = require('path');
 
 class FieldValidator extends Validator{
   handle(){

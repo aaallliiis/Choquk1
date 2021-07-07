@@ -10,5 +10,6 @@ router.get('/', FieldController.getAllFields)
 router.get('/:id', FieldController.getFieldById)
 router.post('/',FieldValidator.handle(), FieldController.createField)
 router.put('/:id',FieldValidator.handle(), FieldController.updateField)
+router.delete('/:id', FieldController.deleteField)
 
 module.exports = router;
