@@ -42,7 +42,26 @@ fileShcema.statics.getFileData=async function(Id){
         return await File.findById(Id,'-__v -updatedAt')
         .populate('courseId','_id name')
         .populate('fieldId','_id name')
+}
 
+fileShcema.statics.createFile=async function(body){
+    if(!mongoose.isValidObjectId(body.fieldId)||!mongoose.isValidObjectId(body.courseId))
+        throw new Error('invalid id')
+    else{
+        const newFile =new File(body)
+        await newFile.save();
+        return 'file successfuly created'
+    }
+}
+
+fileShcema.statics.deleteFile=async function(id){
+    const found = await File.findById(id)
+    if(!found||!mongoose.isValidObjectId(id))
+        throw new Error('invalid id')
+    else{
+        await found.deleteOne();
+        return 'file successfuly deleted'
+    }
 }
 
 const File = mongoose.model('File',fileShcema);

@@ -1,6 +1,6 @@
-const app=require('express')();
+const express=require('express');
+const app=express();
 const mongoose=require('mongoose');
-const bodyParser=require('body-parser');
 const cors = require('cors');
 const passport=require('passport');
 
@@ -28,11 +28,11 @@ module.exports = class Application{
         console.log('connected to DB');
     }
     setConfig(){
+        app.use(express.json());
+        app.use(express.urlencoded({extended:false}));
         require('./passport/passport-local');
         require('./passport/passport-jwt');
         app.use(passport.initialize());
-        app.use(bodyParser.json());
-        app.use(bodyParser.urlencoded({extended:true}));
         app.use(cors())
     }
 }
