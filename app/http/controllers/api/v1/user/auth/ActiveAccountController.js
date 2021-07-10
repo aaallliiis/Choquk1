@@ -8,6 +8,7 @@ class ActiveAccountController extends controller {
         User.findOne({phoneNumber})
         .then(async user=>{
             if(!user) throw new Error('this phone number has not been registered')
+            if(user.active) throw new Error('this phone number has been activated')
             const newActive = new ActiveMobile({
                 phoneNumber,
                 token:this.generateToken()
