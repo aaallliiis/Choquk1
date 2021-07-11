@@ -7,8 +7,8 @@ class ActiveAccountController extends controller {
         const {body:{phoneNumber}}=req;
         User.findOne({phoneNumber})
         .then(async user=>{
-            if(!user) throw new Error('this phone number has not been registered')
-            if(user.active) throw new Error('this phone number has been activated')
+            if(!user) throw new Error('این شماره ثبت نام نکرده است')
+            if(user.active) throw new Error('این شماره قبلا فعال شده است')
             const newActive = new ActiveMobile({
                 phoneNumber,
                 token:this.generateToken()
@@ -26,14 +26,14 @@ class ActiveAccountController extends controller {
         const {body:{token,phoneNumber}} =req;
         ActiveMobile.findOne({phoneNumber,token})
         .then(active=>{
-            if(!active||active.used)throw new Error('unvalid token or phone number');
+            if(!active||active.used)throw new Error('کد یا شماره تلفن معتبر نیست');
             User.findOne({phoneNumber})
             .then(user=>{
                 user.active=true;
                 user.save()
                 .then(newUser=>{
                     active.updateOne({$set:{used:true}})
-                    .then(act=>this.success('Activated',res))
+                    .then(act=>this.success('فعال شد',res))
                 })
                 .catch(err=>this.failed(err,res))
             })

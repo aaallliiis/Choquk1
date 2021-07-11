@@ -18,7 +18,7 @@ passport.use('local.admin',new localstrategy({
     try{
         Admin.findOne({username},(err,user)=>{
             if(err) return done(err);
-            if(!user||!Admin.rehash(password,user.password))return done(null,false,{message:'Admin not found'});
+            if(!user||!Admin.rehash(password,user.password))return done(null,false,{message:'پیدا نشد'});
             return done(null,user);
         })
     }
@@ -35,7 +35,7 @@ passport.use('local.login',new localstrategy({
     try{
         User.findOne({email},(err,user)=>{
             if(err) return done(err);
-            if(!user||!User.rehash(password,user.password))return done(null,false,{message:'user not found'});
+            if(!user||!User.rehash(password,user.password))return done(null,false,{message:'پیدا نشد'});
             return done(null,user);
         })
     }
@@ -56,7 +56,7 @@ passport.use('local.register' ,new localstrategy({
             {uniCode}
         ]}, async(err , user)=> {
             if(err)  return done(err);
-            if(user) return done(null,false,{message:'this email or phoneNumber or uniCode has been taken before'});
+            if(user) return done(null,false,{message:'ایمیل یا شماره همراه یا شماره دانشجویی قبلا ثبت شده است'});
             const newUser= new User({
                 email,
                 name,

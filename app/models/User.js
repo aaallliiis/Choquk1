@@ -2,15 +2,14 @@ const mongoose=require('mongoose');
 const bcrypt=require('bcryptjs');
 
 const userSchema=mongoose.Schema({
-    name: { type: String, default:null},
-    lastName: { type: String, default:null},
-    email: { type: String, default:null,unique:true},
+    name: { type: String, required: true},
+    lastName: { type: String, required: true},
+    email: { type: String,required: true,unique:true},
     password: { type: String, required: true },
-    phoneNumber: { type: String, default:null,unique:true},
-    uniCode: { type: String, default:null,unique:true},
-    orientation: { type: String, default:null},
-    field: { type: String, default:null},
-    birthDate: { type: Date, default:null},
+    phoneNumber: { type: String,required: true,unique:true},
+    uniCode: { type: String,required: true,unique:true},
+    orientation: { type: String, required: true},
+    field: { type: String, required: true},
     active: { type: Boolean, default:false},
 },{ timestamps: true });
 
