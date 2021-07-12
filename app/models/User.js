@@ -30,7 +30,7 @@ userSchema.pre('findOneAndUpdate', function(next){
 
 userSchema.statics.getUserData=async function(Id){
     if(!mongoose.isValidObjectId(Id))
-        throw new Error('invalid id')
+        throw new Error('آیدی نامعتبر است')
     else
         return await User.findById(Id,'-password -__v')
 }

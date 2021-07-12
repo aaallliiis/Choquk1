@@ -1,5 +1,4 @@
 const mongoose=require('mongoose');
-const Course = require('./Course');
 
 const ProfSchema=mongoose.Schema({
     name: { type: String, require:true,unique:true},
@@ -42,12 +41,12 @@ ProfSchema.statics.deleteProf=async function(id){
     if(!found||!mongoose.isValidObjectId(id))
         throw new Error('آیدی نامعتبر است')
     else{
-        await Course.deleteMany({profId:found});
+        await mongoose.model('Course').deleteMany({profId:found});
         await found.deleteOne();
         return 'استاد با موفقیت حذف شد'
     }
 }
 
-const Prof =mongoose.model('Prof',ProfSchema);;
+const Prof =mongoose.model('Prof',ProfSchema);
 
 module.exports= Prof;

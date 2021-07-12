@@ -38,9 +38,9 @@ class FileController extends controller {
                 req.file.filename,
                 `./app/public/files/${req.file.filename}`,
                 (err,etag)=>{
-                    if(err)return this.failed('somthing wrong pls try again',res);
+                    if(err)return this.failed('مشکلی رخ داد دوباره تلاش کنید',res);
                     minioClient.presignedUrl('GET', 'choquk-files', req.file.filename,async (err, presignedUrl)=>{
-                        if (err) return this.failed('somthing wrong pls try again',res)
+                        if (err) return this.failed('مشکلی رخ داد دوباره تلاش کنید',res)
                         await fs.unlink(`./app/public/files/${req.file.filename}`,()=>console.log('deleted'));
                         body.url = presignedUrl.split('?')[0];
                         try {
@@ -72,21 +72,20 @@ class FileController extends controller {
                         'choquk-files',
                         found.url.split('/')[4],
                         (err)=>{
-                            if(err)return console.log(err);
-                            // if(err)return this.failed('somthing wrong pls try again',res);
+                            if(err)return this.failed('مشکلی رخ داد دوباره تلاش کنید',res);
                             minioClient.fPutObject(
                                 'choquk-files',
                                 req.file.filename,
                                 `./app/public/files/${req.file.filename}`,
                                 (err,etag)=>{
-                                    if(err)return this.failed('somthing wrong pls try again',res);
+                                    if(err)return this.failed('مشکلی رخ داد دوباره تلاش کنید',res);
                                     minioClient.presignedUrl('GET', 'choquk-files', req.file.filename,async (err, presignedUrl)=>{
-                                        if (err) return this.failed('somthing wrong pls try again',res)
+                                        if (err) return this.failed('مشکلی رخ داد دوباره تلاش کنید',res)
                                         await fs.unlink(`./app/public/files/${req.file.filename}`,()=>console.log('deleted'));
                                         body.url = presignedUrl.split('?')[0];
                                         try {
                                             await found.updateOne({ $set:body });
-                                            return this.success('file successfuly updated',res)
+                                            return this.success('فایل با موفقیت ویرایش شد',res)
                                         } catch ({message}) {
                                             return this.failed(message,res,400);
                                         }
@@ -98,13 +97,13 @@ class FileController extends controller {
                 }else{
                     try {
                         await found.updateOne({ $set:body });
-                        return this.success('file successfuly updated',res)
+                        return this.success('فایل با موفقیت ویرایش شد',res)
                     } catch ({message}) {
                         return this.failed(message,res,400);
                     }
                 }
             }else{
-                this.failed('invalid id',res)
+                this.failed('آیدی نامعتبر است',res)
             }
         } catch ({message}) {
             return this.failed(message,res,400)

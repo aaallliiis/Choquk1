@@ -10,38 +10,48 @@ const courseSchema=mongoose.Schema({
 courseSchema.statics.createCourse=async function(body){
     const found = await Course.findOne({name:body.name})
     if(found){
-        throw new Error('name duplicated')
+        throw new Error('نام تکراری میباشد')
     }
-    if(!mongoose.isValidObjectId(body.fieldId))
-        throw new Error('invalid id')
+    if(!mongoose.isValidObjectId(body.fieldId)||
+        !(await mongoose.model('Field').findById(body.fieldId))||
+        !mongoose.isValidObjectId(body.profId)||
+        !(await mongoose.model('Prof').findById(body.profId))
+    )
+        throw new Error('آیدی نامعتبر است')
     else{
         const newCourse =new Course(body)
         await newCourse.save();
-        return 'course successfuly created'
+        return 'درس با موفقیت اضافه شد'
     }
 }
 
 courseSchema.statics.updateCourse=async function(body,id){
     const found = await Course.findOne({name:body.name})
     if(found){
-        throw new Error('name duplicated')
+        throw new Error('نام تکراری میباشد')
     }
-    if(!mongoose.isValidObjectId(body.fieldId)||!mongoose.isValidObjectId(id))
-        throw new Error('invalid id')
+    if(!mongoose.isValidObjectId(body.fieldId)||
+        !(await mongoose.model('Field').findById(body.fieldId))||
+        !mongoose.isValidObjectId(body.profId)||
+        !(await mongoose.model('Prof').findById(body.profId))||
+        !mongoose.isValidObjectId(id)||
+        !(await Course.findById(id))
+    )
+        throw new Error('آیدی نامعتبر است')
     else{
         await Course.findByIdAndUpdate(id,{$set:body})
-        return 'course successfuly updated'
+        return 'درس با موفقیت ویرایش شد'
     }
 }
 
 courseSchema.statics.deleteCourse=async function(id){
     const found = await Course.findById(id)
     if(!found||!mongoose.isValidObjectId(id))
-        throw new Error('invalid id')
+        throw new Error('آیدی نامعتبر است')
     else{
         await File.deleteMany({courseId:found});
         await found.deleteOne();
-        return 'course successfuly deleted'
+        return 'درس با موفقیت حذف شد'
     }
 }
 
