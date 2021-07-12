@@ -3,7 +3,7 @@ const File=require('./File');
 
 const courseSchema=mongoose.Schema({
     name: { type: String, default:null},
-    profName: { type: String, default:null},
+    profId: { type: mongoose.Schema.Types.ObjectId,ref:'Prof' },
     fieldId: { type: mongoose.Schema.Types.ObjectId,ref:'Field' },
 },{ timestamps: true });
 
