@@ -9,7 +9,7 @@ const fileShcema=mongoose.Schema({
     type:{ type:String , require:true },
 },{ timestamps: true });
 
-fileShcema.statics.getFiles=async function({search,fieldId,courseId}){
+fileShcema.statics.getFiles=async function({search,fieldId,courseId,profId}){
     let query = [];
     
     if(search)
@@ -24,6 +24,12 @@ fileShcema.statics.getFiles=async function({search,fieldId,courseId}){
         query.push({courseId})
     else if(courseId&&!mongoose.isValidObjectId(courseId))
         throw new Error('invalid id')
+
+    if(profId&&mongoose.isValidObjectId(profId))
+        query.push({profId})
+    else if(profId&&!mongoose.isValidObjectId(profId))
+        throw new Error('invalid id')
+
 
     if(query.length>0)
         return await File.find({$or:query},'-__v -updatedAt')

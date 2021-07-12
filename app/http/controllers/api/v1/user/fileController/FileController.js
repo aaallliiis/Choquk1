@@ -2,7 +2,7 @@ const controller = require('../../../../controller');
 const File=require('../../../../../../models/File');
 
 class FileController extends controller {
-    async getAllFiles({query,body:{offset}},res,next){
+    async getAllFiles({query,body:{offset}},res){
         try {
             if(offset%10===0){
                 const files = await File.getFiles(query)
@@ -14,7 +14,7 @@ class FileController extends controller {
         }
     }
 
-    async getFileById({params:{id}},res,next){
+    async getFileById({params:{id}},res){
         try {
             return this.success(await File.getFileData(id),res)
         } catch (error) {
