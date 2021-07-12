@@ -11,6 +11,7 @@ const fileShcema=mongoose.Schema({
 
 fileShcema.statics.getFiles=async function({search,fieldId,courseId,profId}){
     let query = [];
+    let founds = [];
     
     if(search)
         query = [{title:new RegExp(search,'gi')},{description:new RegExp(search,'gi')}]
@@ -37,28 +38,26 @@ fileShcema.statics.getFiles=async function({search,fieldId,courseId,profId}){
     )
         throw new Error('آیدی نامعتبر است')
 
+    if(query.length>0)
+        founds = await File.find({$or:query},'-__v -updatedAt')
+        .populate({path:'courseId',select:'name',populate:[{path:'profId',select:'name',model:'Prof'}]})
+        .populate('fieldId','_id name')
+    else
+        founds = await File.find({},'-__v -updatedAt')
+        .populate({path:'courseId',select:'name',populate:[{path:'profId',select:'name',model:'Prof'}]})
+        .populate('fieldId','_id name')
     if(profId&&
         mongoose.isValidObjectId(profId)&&
         await mongoose.model('Prof').findById(profId)
     )
-        query.push({courseId:{profId}})
+        return founds.filter(({courseId:{profId:{_id}}})=>_id.toString()===profId);
     else if(profId&&
         (!mongoose.isValidObjectId(profId)||
         !(await mongoose.model('Prof').findById(profId)))
     )
-        throw new Error('آیدی نامعتبر است')
-
-
-    if(query.length>0)
-        return await File.find({$or:query},'-__v -updatedAt')
-        .populate('courseId','_id name profId')
-        .populate('courseId.profId','_id name')
-        .populate('fieldId','_id name')
-    else
-        return await File.find({},'-__v -updatedAt')
-        .populate('courseId','_id name profId')
-        .populate('courseId.profId','_id name')
-        .populate('fieldId','_id name')
+        throw new Error('آیدی نامعتبر است')    
+    else if(!profId)
+        return founds;
 }
 
 fileShcema.statics.getFileData=async function(Id){
