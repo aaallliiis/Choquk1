@@ -9,34 +9,19 @@ const fileShcema=mongoose.Schema({
     type:{ type:String , require:true },
 },{ timestamps: true });
 
-fileShcema.statics.getFiles=async function({search,fieldId,courseId,profId}){
+fileShcema.statics.getFiles=async function({search,courseId,fieldId,profId}){
     let query = [];
     let founds = [];
     
     if(search)
         query = [{title:new RegExp(search,'gi')},{description:new RegExp(search,'gi')}]
-    
-    if(fieldId&&
-        mongoose.isValidObjectId(fieldId)&&
-        await mongoose.model('Field').findById(fieldId)
-    )
-        query.push({fieldId})
-    else if(fieldId&&
-        (!mongoose.isValidObjectId(fieldId)||
-        !(await mongoose.model('Field').findById(fieldId)))
-    )
-        throw new Error('آیدی نامعتبر است')
 
-    if(courseId&&
-        mongoose.isValidObjectId(courseId)&&
-        await mongoose.model('Course').findById(courseId)
-    )
-        query.push({courseId})
-    else if(courseId&&
-        (!mongoose.isValidObjectId(courseId)||
-        !(await mongoose.model('Course').findById(courseId)))
-    )
-        throw new Error('آیدی نامعتبر است')
+    console.log(profId)
+    if(fieldId&&fieldId.length>0)
+        query.push({fieldId:{ "$in" : fieldId}})
+
+    if(courseId&&courseId.length>0)
+        query.push({courseId:{ "$in" : courseId}})
 
     if(query.length>0)
         founds = await File.find({$or:query},'-__v -updatedAt')
