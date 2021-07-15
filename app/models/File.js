@@ -16,7 +16,6 @@ fileShcema.statics.getFiles=async function({search,courseId,fieldId,profId}){
     if(search)
         query = [{title:new RegExp(search,'gi')},{description:new RegExp(search,'gi')}]
 
-    console.log(profId)
     if(fieldId&&fieldId.length>0)
         query.push({fieldId:{ "$in" : fieldId}})
 
@@ -31,6 +30,7 @@ fileShcema.statics.getFiles=async function({search,courseId,fieldId,profId}){
         founds = await File.find({},'-__v -updatedAt')
         .populate({path:'courseId',select:'name',populate:[{path:'profId',select:'name',model:'Prof'}]})
         .populate('fieldId','_id name')
+
     if(profId&&
         mongoose.isValidObjectId(profId)&&
         await mongoose.model('Prof').findById(profId)
