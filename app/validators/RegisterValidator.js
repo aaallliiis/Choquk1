@@ -4,13 +4,13 @@ const Validator =  require('./Validator');
 class RegisterValidator extends Validator{
   handle(){
     return [
-      check('name', 'name cant empty').trim().escape().notEmpty(),
-      check('lastName', 'lastName cant empty').trim().escape().notEmpty(),
-      check('email', 'title cant be empty').trim().escape().notEmpty(),
-      check('uniCode', 'uniCode cant empty').trim().escape().notEmpty(),
-      check('orientation', 'orientation cant empty').trim().escape().notEmpty(),
-      check('field', 'field cant empty').trim().escape().notEmpty(),
-      check('birthDate', 'birthDate cant empty').trim().escape().notEmpty(),
+      check('name', 'نام نمیتواند خالی باشد').trim().escape().notEmpty(),
+      check('lastName', 'نام خانوادگی نمیتواند خالی باشد').trim().escape().notEmpty(),
+      check('email', 'ایمیل نمیتواند خالی باشد').trim().escape().notEmpty(),
+      check('uniCode', 'کد دانشجویی نمیتواند خالی باشد').trim().escape().notEmpty(),
+      check('orientation', 'گرایش نمیتواند خالی باشد').trim().escape().notEmpty(),
+      check('field', 'رشته نمیتواند خالی باشد').trim().escape().notEmpty(),
+      check('birthDate', 'تاریخ تولد نمیتواند خالی باشد').trim().escape().notEmpty(),
     ];
   }
   handleUpdate(){
@@ -19,7 +19,7 @@ class RegisterValidator extends Validator{
         if(!value)
           return;
         if(!['PDF','DOC','VID','IMG','VC'].includes(value))
-          throw new Error ('invalid type')
+          throw new Error ('نوع فایل نامعتبر است')
       }),
     ];
   }

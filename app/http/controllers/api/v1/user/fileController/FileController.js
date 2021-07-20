@@ -8,7 +8,7 @@ class FileController extends controller {
                 const files = await File.getFiles({search,courseId,fieldId,profId})
                 return this.success(files.filter((item,index)=>((offset-10)<=index)&&(index<offset)),res)
             }else
-                throw new Error('invalid number')
+                throw new Error('شماره نامعتبر است')
         } catch (error) {
             this.failed(error.message,res,400)
         }

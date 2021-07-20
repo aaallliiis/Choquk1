@@ -6,7 +6,12 @@ const orientationSchema=mongoose.Schema({
 },{ timestamps: true,toJSON:{virtuals:true} });
 
 orientationSchema.statics.getOrientations=async function(fieldId){
-    return await Orientation.find({fieldId},'-__v -updatedAt')
+    if(!(await mongoose.model('Field').findById(fieldId))||
+        !mongoose.isValidObjectId(body.fieldId)
+    )
+        throw new Error('آیدی نامعتبر است')
+    else
+        return await Orientation.find({fieldId},'-__v -updatedAt')
 }
 
 const Orientation = mongoose.model('Orientation',orientationSchema);

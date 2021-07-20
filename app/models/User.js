@@ -9,6 +9,7 @@ const userSchema=mongoose.Schema({
     password: { type: String, required: true },
     phoneNumber: { type: String,required: true,unique:true},
     uniCode: { type: String,required: true,unique:true},
+    birthDate: { type: String,required: true},
     orientation: { type: mongoose.Schema.Types.ObjectId,ref:'Orientation' },
     field: { type: mongoose.Schema.Types.ObjectId,ref:'Field' },
     active: { type: Boolean, default:false},

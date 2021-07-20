@@ -47,9 +47,9 @@ module.exports = class controller {
                 CanContinueInCaseOfError: "false",        
             },{
                 headers:{'x-sms-ir-secure-token':TokenKey}
-            }).then(()=>this.success('code sent',res))
-            .catch(err=>this.failed("smt wrong pls try again.",res))
+            }).then(()=>this.success('کد ارسال شد',res))
+            .catch(err=>this.failed("مشکلی رخ داد لطفا دوباره تلاش کنید.",res))
         })
-        .catch(err=>this.failed("smt wrong pls try again.",res))
+        .catch(err=>this.failed("مشکلی رخ داد لطفا دوباره تلاش کنید.",res))
     }
 }

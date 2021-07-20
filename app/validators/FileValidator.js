@@ -4,15 +4,15 @@ const Validator =  require('./Validator');
 class FileValidator extends Validator{
   handle(){
     return [
-      check('title', 'title cant be empty').trim().escape().notEmpty(),
-      check('description', 'description cant empty').trim().escape().notEmpty(),
-      check('fieldId', 'fieldId cant empty').notEmpty(),
-      check('courseId', 'courseId cant empty').notEmpty(),
+      check('title', 'عنوان نمیتواند خالی باشد').trim().escape().notEmpty(),
+      check('description', 'توضیحات نمیتواند خالی باشد').trim().escape().notEmpty(),
+      check('fieldId', 'رشته نمیتواند خالی باشد').notEmpty(),
+      check('courseId', 'درس نمیتواند خالی باشد').notEmpty(),
       check('type').custom(async value=>{
         if(!value||!['PDF','DOC','VID','IMG','VC'].includes(value))
-          throw new Error ('invalid type')
+          throw new Error ('نوع فایل نامعتبر است')
       }),
-      check('file','file cant be empty').notEmpty(),
+      check('file','فایل نمیتواند خالی باشد').notEmpty(),
     ];
   }
   handleUpdate(){
@@ -21,7 +21,7 @@ class FileValidator extends Validator{
         if(!value)
           return;
         if(!['PDF','DOC','VID','IMG','VC'].includes(value))
-          throw new Error ('invalid type')
+          throw new Error ('نوع فایل نامعتبر است')
       }),
     ];
   }
