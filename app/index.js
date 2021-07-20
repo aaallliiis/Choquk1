@@ -6,8 +6,8 @@ const passport=require('passport');
 
 module.exports = class Application{
     constructor(){
-        this.setupExpress();
         this.setupMongoose();
+        this.setupExpress();
         this.setConfig();
         this.setupRouter();
     }

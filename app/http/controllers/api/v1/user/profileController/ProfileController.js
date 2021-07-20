@@ -9,16 +9,17 @@ class ProfileController extends controller {
     async updateUser({user:{id},body},res){
         const {phoneNumber,email,uniCode,active} = body;
         if(phoneNumber||email||uniCode){
-            var found = await User.findOne({$or: [
+            var found = await User.find({$or: [
                 {email},
                 {phoneNumber},
                 {uniCode}
             ]});
-            if(found) return this.failed('email or phonenumber or uniCode has been taken before',res)
+            if(found.length>0&&found.find(item=>item.id!==id)) return this.failed('این ایمل یا شماره همراه یا کد دانشجویی قبلا ثبت شده است',res)
         }
         delete body.active
+
         User.findByIdAndUpdate(id,{$set:body})
-        .then(()=>this.success('user successfuly updated',res))
+        .then(()=>this.success('با موفقیت ویرایش شد',res))
         .catch(err=>console.log(err))
     }
 }   

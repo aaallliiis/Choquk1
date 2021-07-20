@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
 const bcrypt=require('bcryptjs');
+const Orientation = require('./Orientation');
 
 const userSchema=mongoose.Schema({
     name: { type: String, required: true},
@@ -8,8 +9,8 @@ const userSchema=mongoose.Schema({
     password: { type: String, required: true },
     phoneNumber: { type: String,required: true,unique:true},
     uniCode: { type: String,required: true,unique:true},
-    orientation: { type: String, required: true},
-    field: { type: String, required: true},
+    orientation: { type: mongoose.Schema.Types.ObjectId,ref:'Orientation' },
+    field: { type: mongoose.Schema.Types.ObjectId,ref:'Field' },
     active: { type: Boolean, default:false},
 },{ timestamps: true });
 
