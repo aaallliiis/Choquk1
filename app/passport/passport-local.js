@@ -64,8 +64,8 @@ passport.use('local.register' ,new localstrategy({
                 phoneNumber,
                 password,
                 uniCode,
-                orientation:orientation._id,
-                field:field._id,
+                orientation,
+                field,
                 birthDate,
             });
             await newUser.save(err=>{

@@ -7,7 +7,7 @@ const orientationSchema=mongoose.Schema({
 
 orientationSchema.statics.getOrientations=async function(fieldId){
     if(!(await mongoose.model('Field').findById(fieldId))||
-        !mongoose.isValidObjectId(body.fieldId)
+        !mongoose.isValidObjectId(fieldId)
     )
         throw new Error('آیدی نامعتبر است')
     else
