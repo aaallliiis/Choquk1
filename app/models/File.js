@@ -1,4 +1,5 @@
 const mongoose=require('mongoose');
+const idPlugin = require("./mongoPlugin");
 
 const fileShcema=mongoose.Schema({
     title:{ type:String , require:true },
@@ -44,6 +45,8 @@ fileShcema.statics.getFiles=async function({search,courseId,fieldId,profId}){
     else if(!profId)
         return founds;
 }
+
+fileShcema.plugin(idPlugin);
 
 fileShcema.statics.getFileData=async function(Id){
     if(!mongoose.isValidObjectId(Id))

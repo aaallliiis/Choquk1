@@ -1,19 +1,25 @@
-const mongoose=require('mongoose');
+const mongoose = require("mongoose");
+const idPlugin = require("./mongoPlugin");
 
-const orientationSchema=mongoose.Schema({
-    name: { type: String, require:true,unique:true},
-    fieldId: { type: mongoose.Schema.Types.ObjectId,ref:'Field' },
-},{ timestamps: true,toJSON:{virtuals:true} });
+const orientationSchema = mongoose.Schema(
+  {
+    name: { type: String, require: true, unique: true },
+    fieldId: { type: mongoose.Schema.Types.ObjectId, ref: "Field" },
+  },
+  { timestamps: true, toJSON: { virtuals: true } }
+);
 
-orientationSchema.statics.getOrientations=async function(fieldId){
-    if(!(await mongoose.model('Field').findById(fieldId))||
-        !mongoose.isValidObjectId(fieldId)
-    )
-        throw new Error('آیدی نامعتبر است')
-    else
-        return await Orientation.find({fieldId},'-__v -updatedAt')
-}
+orientationSchema.plugin(idPlugin);
 
-const Orientation = mongoose.model('Orientation',orientationSchema);
+orientationSchema.statics.getOrientations = async function (fieldId) {
+  if (
+    !(await mongoose.model("Field").findById(fieldId)) ||
+    !mongoose.isValidObjectId(fieldId)
+  )
+    throw new Error("آیدی نامعتبر است");
+  else return await Orientation.find({ fieldId }, "-__v -updatedAt");
+};
 
-module.exports= Orientation;
+const Orientation = mongoose.model("Orientation", orientationSchema);
+
+module.exports = Orientation;
