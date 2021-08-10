@@ -4,10 +4,10 @@ const Validator = require("./Validator");
 class FieldValidator extends Validator {
   handle() {
     return [
-      check("name", "نام نمیتواند کمتر از ۲ حرف باشد")
+      check("name", "نام نمیتواند کمتر از ۳ حرف باشد")
         .trim()
         .escape()
-        .isLength({ min: 2 }),
+        .isLength({ min: 3 }),
     ];
   }
 }
