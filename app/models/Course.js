@@ -54,6 +54,7 @@ courseSchema.statics.deleteCourse = async function (id) {
   if (!mongoose.isValidObjectId(id) || !(await Course.findById(id)))
     throw new Error("آیدی نامعتبر است");
   else {
+    let found = await Course.findById(id);
     await File.deleteMany({ courseId: found });
     await found.deleteOne();
     return "درس با موفقیت حذف شد";

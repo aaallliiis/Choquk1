@@ -49,6 +49,7 @@ ProfSchema.statics.deleteProf = async function (id) {
   if (!mongoose.isValidObjectId(id) || !(await Prof.findById(id)))
     throw new Error("آیدی نامعتبر است");
   else {
+    let found = await Prof.findById(id);
     await mongoose.model("Course").deleteMany({ profId: found });
     await found.deleteOne();
     return "استاد با موفقیت حذف شد";

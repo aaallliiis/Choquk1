@@ -47,6 +47,7 @@ fieldSchema.statics.deleteField = async function (id) {
   if (!mongoose.isValidObjectId(id) || !(await Field.findById(id)))
     throw new Error("آیدی نامعتبر است");
   else {
+    let found = await Field.findById(id);
     await mongoose.model("Course").deleteMany({ fieldId: found });
     await found.deleteOne();
     return "رشته با موفقیت حذف شد";
