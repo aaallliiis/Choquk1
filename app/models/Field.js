@@ -44,8 +44,7 @@ fieldSchema.statics.updateField = async function (body, id) {
 };
 
 fieldSchema.statics.deleteField = async function (id) {
-  const found = await Field.findById(id);
-  if (!found || !mongoose.isValidObjectId(id))
+  if (!mongoose.isValidObjectId(id) || !(await Field.findById(id)))
     throw new Error("آیدی نامعتبر است");
   else {
     await mongoose.model("Course").deleteMany({ fieldId: found });
