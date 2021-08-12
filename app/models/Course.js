@@ -11,6 +11,20 @@ const courseSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+courseSchema.statics.getCourses = async function () {
+  return await Course.find({}, "-__v -updatedAt")
+    .populate("profId", "-__v -updatedAt")
+    .populate("fieldId", "-__v -updatedAt");
+};
+
+courseSchema.statics.getCourseData = async function (Id) {
+  if (!mongoose.isValidObjectId(Id)) throw new Error("آیدی نامعتبر است");
+  else
+    return await Course.findById(Id, "-__v -updatedAt")
+      .populate("profId", "-__v -updatedAt")
+      .populate("fieldId", "-__v -updatedAt");
+};
+
 courseSchema.statics.createCourse = async function (body) {
   const found = await Course.findOne({ name: body.name });
   if (found) {
@@ -32,7 +46,7 @@ courseSchema.statics.createCourse = async function (body) {
 
 courseSchema.statics.updateCourse = async function (body, id) {
   const found = await Course.findOne({ name: body.name });
-  if (found) {
+  if (found && found.id !== id) {
     throw new Error("نام تکراری میباشد");
   }
   if (
