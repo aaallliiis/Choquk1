@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
-const multer = require('multer');
-const mkdirp = require('mkdirp');
-const path = require('path');
-const middleware = require('./Middleware');
+const multer = require("multer");
+const mkdirp = require("mkdirp");
+const path = require("path");
+const middleware = require("./Middleware");
 
 module.exports = new (class uploadMiddleware extends middleware {
   upload(address) {
@@ -16,10 +16,22 @@ module.exports = new (class uploadMiddleware extends middleware {
       },
     });
     const fileFilter = (req, file, cb) => {
-      if(!['.jpg','.jpeg','.png','.pdf','.mp3','.mp4','.mov','.mkv','docx'].includes(path.extname(file.originalname))){
-        return cb(new Error('پسوند فایل صحیح نیست'))
+      if (
+        ![
+          ".jpg",
+          ".jpeg",
+          ".png",
+          ".pdf",
+          ".mp3",
+          ".mp4",
+          ".mov",
+          ".mkv",
+          "docx",
+        ].includes(path.extname(file.originalname))
+      ) {
+        return cb(new Error("پسوند فایل صحیح نیست"));
       }
-      return cb(null,true);
+      return cb(null, true);
     };
     return multer({ storage: diskStorage, fileFilter });
   }

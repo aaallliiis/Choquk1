@@ -100,7 +100,7 @@ fileShcema.statics.deleteFile = async function (id) {
   if (!mongoose.isValidObjectId(id) || !(await File.findById(id)))
     throw new Error("آیدی نامعتبر است");
   else {
-    await found.deleteOne();
+    await await File.findById(id).deleteOne();
     return "فایل با موفقیت حذف شد";
   }
 };

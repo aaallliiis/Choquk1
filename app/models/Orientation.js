@@ -20,6 +20,10 @@ orientationSchema.statics.getOrientations = async function (fieldId) {
   else return await Orientation.find({ fieldId }, "-__v -updatedAt");
 };
 
+orientationSchema.statics.getAllOrientations = async function () {
+  return await Orientation.find({}, "-__v -updatedAt");
+};
+
 const Orientation = mongoose.model("Orientation", orientationSchema);
 
 module.exports = Orientation;
