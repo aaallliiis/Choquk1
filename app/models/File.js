@@ -18,6 +18,7 @@ fileShcema.statics.getFiles = async function ({
   courseId,
   fieldId,
   profId,
+  type,
 }) {
   let query = [];
   let founds = [];
@@ -29,6 +30,8 @@ fileShcema.statics.getFiles = async function ({
     ];
 
   if (fieldId && fieldId.length > 0) query.push({ fieldId: { $in: fieldId } });
+
+  if (type && type.length > 0) query.push({ type: { $in: type } });
 
   if (courseId && courseId.length > 0)
     query.push({ courseId: { $in: courseId } });
@@ -50,25 +53,39 @@ fileShcema.statics.getFiles = async function ({
       })
       .populate("fieldId", "_id name");
 
-  if (
-    profId &&
-    mongoose.isValidObjectId(profId) &&
-    (await mongoose.model("Prof").findById(profId))
-  )
-    return founds.filter(
-      ({
-        courseId: {
-          profId: { _id },
-        },
-      }) => _id.toString() === profId
-    );
-  else if (
-    profId &&
-    (!mongoose.isValidObjectId(profId) ||
-      !(await mongoose.model("Prof").findById(profId)))
-  )
-    throw new Error("آیدی نامعتبر است");
-  else if (!profId) return founds;
+  if (profId && profId.length > 0) {
+    try {
+      for (const item in profId) {
+        if (
+          !(
+            mongoose.isValidObjectId(profId[item]) &&
+            (await mongoose.model("Prof").findById(profId[item]))
+          )
+        )
+          throw new Error("آیدی نامعتبر است");
+      }
+      const all = await File.find({}, "-__v -updatedAt")
+        .populate({
+          path: "courseId",
+          select: "name",
+          populate: [{ path: "profId", select: "name", model: "Prof" }],
+        })
+        .populate("fieldId", "_id name");
+      const allFilteredByProf = all.filter(
+        ({
+          courseId: {
+            profId: { _id },
+          },
+        }) => profId.includes(_id.toString())
+      );
+      if (query.length > 0) {
+        founds.push(...allFilteredByProf);
+        return founds;
+      } else return allFilteredByProf;
+    } catch (err) {
+      throw err;
+    }
+  } else return founds;
 };
 
 fileShcema.plugin(idPlugin);
