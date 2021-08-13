@@ -4,11 +4,19 @@ const router = require("express").Router();
 const OrientationController = require("../../../../../http/controllers/api/v1/admin/OrientationController");
 
 //validator
-// const FieldValidator = require("../../../../../validators/FieldValidator");
+const OrientationValidator = require("../../../../../validators/OrientationValidator");
 
 router.get("/", OrientationController.getAllOrientations);
-// router.post("/", FieldValidator.handle(), FieldController.createField);
-// router.put("/:id", FieldValidator.handle(), FieldController.updateField);
-// router.delete("/:id", FieldController.deleteField);
+router.post(
+  "/",
+  OrientationValidator.handle(),
+  OrientationController.createOrientation
+);
+router.put(
+  "/:id",
+  OrientationValidator.handle(),
+  OrientationController.updateOrientation
+);
+router.delete("/:id", OrientationController.deleteOrientation);
 
 module.exports = router;
